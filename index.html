@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ley de Gay-Lussac — Simulación Interactiva</title>
+    <script src="js/i18n-en.js"></script>
+    <script src="js/i18n-ca.js"></script>
+    <script src="js/i18n-eu.js"></script>
+    <script src="js/i18n-gl.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/vendor/p5.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/practica.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script src="js/estadisticas.js" data-sim="sim-practica-gay-lussac"></script>
+    <script src="js/sello.js" data-contenedor="main.simulation-panel" data-esquina="bl"></script>
+</head>
+<body class="nivel-guiada">
+    <div class="app-container">
+
+        <!-- ── PANEL DE CONTROL ──────────────────────────────────── -->
+        <aside class="control-panel">
+
+            <header>
+                <div class="header-top">
+                    <svg class="header-icon-svg" width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <!-- Matraz en el baño y termómetro -->
+                        <path d="M5 22 H33 V38 H5 Z" fill="#3a8ad8" opacity=".35"/>
+                        <path d="M16 6 V14 L8 30 a3 3 0 0 0 3 4 H27 a3 3 0 0 0 3 -4 L22 14 V6" stroke="#c8d4e6" stroke-width="1.8" fill="none"/>
+                        <rect x="14.5" y="3" width="9" height="4" rx="1" fill="#c8d4e6"/>
+                        <path d="M37 4 V28" stroke="#ff6a6a" stroke-width="2.4" stroke-linecap="round"/>
+                        <circle cx="37" cy="31" r="3" fill="#ff6a6a"/>
+                        <path d="M19 3 V0" stroke="#00c8ff" stroke-width="2"/>
+                    </svg>
+                    <h1>Ley de Gay-Lussac</h1>
+                </div>
+                <p class="subtitle">Práctica de laboratorio</p>
+                <details class="header-details">
+                    <summary>¿De qué va esta práctica?</summary>
+                    <div class="header-details-body">
+                        <p class="section-note" data-i18n="intro-objetivo">
+                            Un matraz cerrado guarda siempre <strong>el mismo aire</strong> en <strong>el mismo volumen</strong>.
+                            Al calentarlo en un baño de agua, la <strong>presión</strong> de ese aire sube. Mide la presión a varias
+                            temperaturas, desde el agua con hielo hasta unos 80 °C, y comprueba que <i>P</i> / <i>T</i> es constante
+                            si la temperatura está en <strong>kelvin</strong>.
+                        </p>
+                        <p class="section-note" data-i18n="intro-cero">
+                            Al alargar la recta de la presión frente a la temperatura en °C hasta que la presión es cero, sale
+                            una temperatura cercana a −273 °C: el <strong>cero absoluto</strong>, donde empieza la escala Kelvin.
+                        </p>
+                    </div>
+                </details>
+            </header>
+
+            <hr class="divider">
+
+            <!-- NIVEL -->
+            <div class="mode-switch" role="tablist" aria-label="Nivel">
+                <button id="nivel-guiada" type="button" class="mode-btn active" role="tab" aria-selected="true">
+                    Guiada
+                    <span class="mode-sub">paso a paso</span>
+                </button>
+                <button id="nivel-libre" type="button" class="mode-btn" role="tab" aria-selected="false">
+                    Libre
+                    <span class="mode-sub">con guión en papel</span>
+                </button>
+            </div>
+
+            <hr class="divider">
+
+            <!-- MONTAJE E INSTRUMENTOS -->
+            <section class="control-group">
+                <h2>Material de la práctica</h2>
+                <div class="input-wrapper">
+                    <label for="select-montaje">Montaje</label>
+                    <div class="fila-muestra">
+                        <select id="select-montaje" class="custom-select"></select>
+                        <button id="btn-azar" type="button" class="boton-panel boton-icono"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg>Otro al azar</button>
+                    </div>
+                </div>
+                <p class="field-hint">Matraz de 250 mL cerrado con un tapón, vaso de 600 mL con agua y hielo sobre una placa calefactora con agitador, manómetro digital de 0,1 kPa (presión absoluta) y termómetro de −10 a 110 °C con divisiones de 1 °C.</p>
+                <div class="llave-ayuda">
+                    <svg width="92" height="40" viewBox="0 0 92 40" aria-hidden="true">
+                        <g class="llave-mini"><path d="M4 22H40M22 22V36"/><circle cx="22" cy="22" r="5"/><rect class="palanca" x="19.5" y="2" width="5" height="15" rx="2"/></g>
+                        <g class="llave-mini"><path d="M52 22H88M70 22V36"/><circle cx="70" cy="22" r="5"/><rect class="palanca" x="67.5" y="27" width="5" height="12" rx="2"/></g>
+                    </svg>
+                    <p class="field-hint">La llave tiene tres salidas: el manómetro, el matraz y el aire de la sala (abajo). La palanca apunta a la salida que cierra. <strong>Hacia arriba</strong>, todo está abierto al aire; <strong>hacia abajo</strong>, el aire del matraz queda encerrado.</p>
+                </div>
+                <p class="field-hint only-guiada">Pulsa la palanca de la llave, las flechas del elevador y el botón de encendido de la placa. En este nivel el agitador se enciende solo con la placa y la potencia es media. Arrastra la lupa hasta el termómetro para leerlo.</p>
+                <p class="field-hint only-libre">Pulsa la palanca de la llave, las flechas del elevador y los botones de la placa: encendido, potencia y agitador. Arrastra la lupa hasta el termómetro para leerlo.</p>
+            </section>
+
+            <hr class="divider">
+
+            <!-- ═══ NIVEL GUIADO ═══ -->
+            <section class="control-group only-guiada">
+                <h2>Pasos de la práctica</h2>
+                <ol id="lista-pasos" class="lista-pasos"></ol>
+            </section>
+
+            <hr class="divider only-guiada">
+
+            <section class="control-group only-guiada">
+                <h2>Cuaderno de laboratorio</h2>
+                <div id="tabla-medidas" class="tabla-medidas" role="table" aria-label="Medidas de temperatura y presión"></div>
+                <div class="prueba-celsius" id="prueba-celsius">
+                    <p>Prueba primero con grados Celsius: <i>P</i> / <i>t</i> con <i>t</i> en °C.</p>
+                    <div class="fila-atm">
+                        <label for="dato-pc1" id="etiqueta-pc1">Medida de 40 °C</label>
+                        <input id="dato-pc1" class="dato" type="text" inputmode="decimal" autocomplete="off">
+                        <span class="unidad">kPa/°C</span>
+                        <span class="marca" id="marca-pc1" aria-hidden="true"></span>
+                    </div>
+                    <div class="fila-atm">
+                        <label for="dato-pc2" id="etiqueta-pc2">Medida de 80 °C</label>
+                        <input id="dato-pc2" class="dato" type="text" inputmode="decimal" autocomplete="off">
+                        <span class="unidad">kPa/°C</span>
+                        <span class="marca" id="marca-pc2" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <p id="aviso-cuaderno" class="aviso-cuaderno" aria-live="polite">Escribe lo que leas en los instrumentos y pulsa Intro.</p>
+                <div id="resultado-ley" class="resultado" aria-live="polite" hidden></div>
+            </section>
+
+            <hr class="divider only-guiada">
+
+            <section class="control-group only-guiada">
+                <h2>Gráfica</h2>
+                <div class="grafica">
+                    <div class="pestanas" role="tablist" aria-label="Gráfica">
+                        <button id="graf-c" type="button" class="pestana activa" role="tab" aria-selected="true">P frente a t (°C)</button>
+                        <button id="graf-k" type="button" class="pestana" role="tab" aria-selected="false">P frente a T (K)</button>
+                    </div>
+                    <svg id="grafica" viewBox="0 0 320 210" role="img" aria-label="Gráfica de tus medidas"></svg>
+                </div>
+                <div class="fila-atm" id="fila-cero">
+                    <label for="dato-cero">La regla llega a <i>P</i> = 0 a <span class="label-hint">(arrastra los dos extremos naranjas sobre tus puntos)</span></label>
+                    <input id="dato-cero" class="dato" type="text" inputmode="decimal" autocomplete="off">
+                    <span class="unidad">°C</span>
+                    <span class="marca" id="marca-cero" aria-hidden="true"></span>
+                </div>
+                <div id="resultado-cero" class="resultado" aria-live="polite" hidden></div>
+            </section>
+
+            <hr class="divider only-guiada">
+
+            <section class="control-group only-guiada">
+                <h2>Explícalo con partículas</h2>
+                <p class="field-hint">Al calentar el aire del matraz, la presión sube porque…</p>
+                <div id="pregunta" class="pregunta" role="radiogroup" aria-label="Al calentar el aire del matraz, la presión sube porque…"></div>
+                <div id="resultado-pregunta" class="resultado" aria-live="polite" hidden></div>
+                <p id="enlace-boyle" class="enlace-final" hidden>En la práctica de <a href="https://jrgrijota.github.io/simulacion-practica-boyle/" target="_blank" rel="noopener">ley de Boyle-Mariotte</a> se cambia el volumen con la temperatura fija. Con las dos se llega a la ley general de los gases.</p>
+            </section>
+
+            <!-- ═══ NIVEL LIBRE ═══ -->
+            <section class="control-group only-libre">
+                <h2>Tu guión</h2>
+                <p class="nota-libre" data-i18n="nota-libre">
+                    Sigue el guión en papel. Apunta en él el <strong>número del montaje</strong> y, en cada medida,
+                    la temperatura del termómetro y la presión del manómetro. Haz los cálculos y las gráficas en la hoja.
+                    En este nivel la simulación no comprueba nada.
+                </p>
+            </section>
+
+            <hr class="divider">
+
+            <section class="control-group">
+                <h2>Instrumentos</h2>
+                <div class="fila-botones">
+                    <button id="btn-describir" type="button" class="boton-panel">Describir los instrumentos</button>
+                    <button id="btn-reiniciar" type="button" class="boton-panel">↺ Empezar de nuevo</button>
+                </div>
+                <p class="field-hint">«Describir los instrumentos» dice entre qué rayas está el líquido del termómetro, qué marca el manómetro y cómo están la placa y el elevador, para quien no pueda ver la lupa. Con el teclado, el tabulador lleva a los botones de los instrumentos y las flechas mueven la lupa.</p>
+            </section>
+
+            <details class="custom-details">
+                <summary>Cómo se leen los instrumentos</summary>
+                <div class="details-content">
+                    <ul class="key-ideas">
+                        <li data-i18n="idea-ojos">El termómetro se lee con los <strong>ojos a la altura del líquido</strong>: la línea amarilla de la lupa tiene que pasar por el final de la columna roja. Desde arriba o desde abajo se lee un grado de más o de menos.</li>
+                        <li data-i18n="idea-alcohol">El líquido rojo es <strong>alcohol teñido</strong>: en los institutos ya no hay termómetros de mercurio. El termómetro es de vidrio: <strong>nunca se usa para remover</strong>, para eso está el agitador.</li>
+                        <li data-i18n="idea-esperar">Apaga la placa <strong>un poco antes</strong> de la temperatura que buscas: sigue caliente y el agua aún sube 2 o 3 °C. Espera a que el termómetro y el manómetro <strong>se paren</strong> antes de leer: el aire del matraz tarda en llegar a la temperatura del agua.</li>
+                        <li data-i18n="idea-cubrir">El agua tiene que <strong>cubrir el matraz entero</strong>. Si solo cubre el fondo, el aire de arriba no se calienta igual.</li>
+                        <li data-i18n="idea-kelvin">Para pasar a kelvin, <i>T</i> = <i>t</i> + 273. En 3.º basta con 273; con 273,15 también vale.</li>
+                    </ul>
+                </div>
+            </details>
+
+        </aside>
+
+        <!-- ── PANEL DE SIMULACIÓN ───────────────────────────────── -->
+        <main class="simulation-panel">
+
+            <!-- Para el teclado: aparecen al llegar con el tabulador -->
+            <div class="canvas-toolbar barra-lab" role="group" aria-label="Instrumentos">
+                <button id="btn-llave" type="button" class="canvas-btn">Cerrar la llave</button>
+                <button id="btn-subir" type="button" class="canvas-btn">▲ Subir el elevador</button>
+                <button id="btn-bajar" type="button" class="canvas-btn">▼ Bajar el elevador</button>
+                <button id="btn-placa" type="button" class="canvas-btn">Encender la placa</button>
+                <button id="btn-potencia" type="button" class="canvas-btn only-libre">Potencia: media</button>
+                <button id="btn-agitador" type="button" class="canvas-btn only-libre">Encender el agitador</button>
+                <button id="btn-lupa-termometro" type="button" class="canvas-btn">🔍 Lupa al termómetro</button>
+            </div>
+
+            <!-- Botón de tema -->
+            <button id="theme-btn" class="theme-btn" title="Cambiar tema" aria-label="Cambiar tema" aria-expanded="false">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58
+                    c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96
+                    c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84
+                    c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33
+                    c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58
+                    C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61
+                    l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94
+                    l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54
+                    c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32
+                    c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z
+                    M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                </svg>
+            </button>
+            <div id="theme-panel" class="theme-panel" aria-hidden="true">
+                <p class="theme-panel-title">Tema visual</p>
+                <div class="theme-options">
+                    <button class="theme-opt active" data-theme="dark">
+                        <span class="theme-swatch dark-swatch"></span>Oscuro
+                    </button>
+                    <button class="theme-opt" data-theme="light">
+                        <span class="theme-swatch light-swatch"></span>Claro
+                    </button>
+                    <button class="theme-opt" data-theme="contrast">
+                        <span class="theme-swatch contrast-swatch"></span>Alto contraste
+                    </button>
+                </div>
+            </div>
+
+            <div id="canvas-container"></div>
+
+            <!-- En el móvil, los mandos son pequeños: aquí hacen lo mismo -->
+            <div class="botones-tactiles" role="group" aria-label="Llave, elevador y placa">
+                <button id="tactil-llave" type="button" class="canvas-btn">Llave: cerrar</button>
+                <button id="tactil-elevador" type="button" class="canvas-btn">Elevador: subir</button>
+                <button id="tactil-placa" type="button" class="canvas-btn">Placa: encender</button>
+                <button id="tactil-potencia" type="button" class="canvas-btn only-libre">Potencia: media</button>
+                <button id="tactil-agitador" type="button" class="canvas-btn only-libre">Agitador: encender</button>
+            </div>
+
+            <!-- Errores que obligan a empezar de nuevo -->
+            <div id="error-lab" class="error-lab" role="alertdialog" aria-modal="true" aria-labelledby="error-titulo" aria-describedby="error-texto" hidden>
+                <div class="error-caja">
+                    <div class="error-cabecera">
+                        <svg class="error-icono" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 22.5 21h-21z" fill="currentColor"/><path d="M12 9v5.5" stroke="#b3261e" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.4" fill="#b3261e"/></svg>
+                        <h2 id="error-titulo"></h2>
+                    </div>
+                    <div id="error-vineta" class="error-vineta" aria-hidden="true"></div>
+                    <p id="error-texto"></p>
+                    <button id="error-reiniciar" type="button" class="boton-panel boton-error">↺ Volver a empezar con el mismo montaje</button>
+                </div>
+            </div>
+            <div id="anuncio" class="sr-only" aria-live="polite"></div>
+        </main>
+
+    </div>
+    <script src="js/montajes.js"></script>
+    <script src="js/sketch.js"></script>
+</body>
+</html>
