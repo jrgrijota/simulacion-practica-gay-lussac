@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ley de Gay-Lussac — Simulación Interactiva</title>
+    <!-- Página pública de esta simulación: simulaciencia.es. Esta dirección (github.io) es la que carga la web dentro de un iframe; la canónica evita que los buscadores la indexen como página aparte. -->
+    <meta name="description" content="Práctica de laboratorio: calienta un matraz cerrado en una placa calefactora, mide la presión y la temperatura del aire y extrapola hasta el cero absoluto. Nivel guiado y nivel libre.">
+    <link rel="canonical" id="canonical" href="https://simulaciencia.es/simulaciones/practica-gay-lussac/">
     <script src="js/i18n-en.js"></script>
     <script src="js/i18n-ca.js"></script>
     <script src="js/i18n-eu.js"></script>
@@ -232,6 +235,12 @@
                         <span class="theme-swatch contrast-swatch"></span>Alto contraste
                     </button>
                 </div>
+            </div>
+
+            <!-- En el móvil, la indicación va encima del lienzo: dentro taparía el termómetro -->
+            <div id="tarjeta-movil" class="tarjeta-movil" aria-hidden="true" hidden>
+                <p class="tarjeta-movil-cabecera"></p>
+                <p class="tarjeta-movil-texto"></p>
             </div>
 
             <div id="canvas-container"></div>
