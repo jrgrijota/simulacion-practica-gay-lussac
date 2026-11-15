@@ -474,3 +474,12 @@ body.theme-contrast .enlace-final a { color: #00ffff; }
     .tabla-medidas .dato { font-size: 0.8rem; padding: 4px 3px; }
 }
 .prueba-celsius .fila-atm, #fila-cero { grid-template-columns: 1fr 76px 52px 16px; }
+
+/* ── Móvil: la tarjeta de indicación va encima del lienzo, no dentro ── */
+.tarjeta-movil { margin: 14px 14px 0; padding: 10px 14px 11px; min-height: 7.4rem; box-sizing: border-box; border: 1px solid; border-radius: 8px; }
+.tarjeta-movil[hidden] { display: none; }
+.tarjeta-movil p { margin: 0; }
+.tarjeta-movil-cabecera { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; margin-bottom: 4px; }
+.tarjeta-movil-texto { font-size: 0.95rem; line-height: 1.38; }
+.tarjeta-movil.aviso { border-width: 1.6px; }
+.tarjeta-movil + #canvas-container { padding-top: 8px; }
