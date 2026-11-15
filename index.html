@@ -7,6 +7,7 @@
     <!-- Página pública de esta simulación: simulaciencia.es. Esta dirección (github.io) es la que carga la web dentro de un iframe; la canónica evita que los buscadores la indexen como página aparte. -->
     <meta name="description" content="Práctica de laboratorio: calienta un matraz cerrado en una placa calefactora, mide la presión y la temperatura del aire y extrapola hasta el cero absoluto. Nivel guiado y nivel libre.">
     <link rel="canonical" id="canonical" href="https://simulaciencia.es/simulaciones/practica-gay-lussac/">
+    <script>(function(){var d={"en":"en/simulations/","ca":"ca/simulacions/","eu":"eu/simulazioak/","gl":"gl/simulacions/"}[new URLSearchParams(location.search).get('lang')];if(d)document.getElementById('canonical').href='https://simulaciencia.es/'+d+'practica-gay-lussac/';})();</script>
     <script src="js/i18n-en.js"></script>
     <script src="js/i18n-ca.js"></script>
     <script src="js/i18n-eu.js"></script>
@@ -108,7 +109,7 @@
                 <h2>Cuaderno de laboratorio</h2>
                 <div id="tabla-medidas" class="tabla-medidas" role="table" aria-label="Medidas de temperatura y presión"></div>
                 <div class="prueba-celsius" id="prueba-celsius">
-                    <p>Prueba primero con grados Celsius: <i>P</i> / <i>t</i> con <i>t</i> en °C.</p>
+                    <p data-i18n="prueba-celsius">Prueba primero con grados Celsius: <i>P</i> / <i>t</i> con <i>t</i> en °C.</p>
                     <div class="fila-atm">
                         <label for="dato-pc1" id="etiqueta-pc1">Medida de 40 °C</label>
                         <input id="dato-pc1" class="dato" type="text" inputmode="decimal" autocomplete="off">
@@ -138,7 +139,7 @@
                     <svg id="grafica" viewBox="0 0 320 210" role="img" aria-label="Gráfica de tus medidas"></svg>
                 </div>
                 <div class="fila-atm" id="fila-cero">
-                    <label for="dato-cero">La regla llega a <i>P</i> = 0 a <span class="label-hint">(arrastra los dos extremos naranjas sobre tus puntos)</span></label>
+                    <label for="dato-cero"><span data-i18n="regla-cero">La regla llega a <i>P</i> = 0 a</span> <span class="label-hint">(arrastra los dos extremos naranjas sobre tus puntos)</span></label>
                     <input id="dato-cero" class="dato" type="text" inputmode="decimal" autocomplete="off">
                     <span class="unidad">°C</span>
                     <span class="marca" id="marca-cero" aria-hidden="true"></span>
@@ -153,7 +154,7 @@
                 <p class="field-hint">Al calentar el aire del matraz, la presión sube porque…</p>
                 <div id="pregunta" class="pregunta" role="radiogroup" aria-label="Al calentar el aire del matraz, la presión sube porque…"></div>
                 <div id="resultado-pregunta" class="resultado" aria-live="polite" hidden></div>
-                <p id="enlace-boyle" class="enlace-final" hidden>En la práctica de <a href="https://jrgrijota.github.io/simulacion-practica-boyle/" target="_blank" rel="noopener">ley de Boyle-Mariotte</a> se cambia el volumen con la temperatura fija. Con las dos se llega a la ley general de los gases.</p>
+                <p id="enlace-boyle" class="enlace-final" data-i18n="enlace-boyle" hidden>En la práctica de <a href="https://jrgrijota.github.io/simulacion-practica-boyle/" target="_blank" rel="noopener">ley de Boyle-Mariotte</a> se cambia el volumen con la temperatura fija. Con las dos se llega a la ley general de los gases.</p>
             </section>
 
             <!-- ═══ NIVEL LIBRE ═══ -->
