@@ -51,7 +51,7 @@ const PASOS = [
 const N_PASOS = PASOS.length;
 
 const INDICACIONES = [
-    'Paso 1: con la llave abierta y el elevador abajo, lleva la lupa al termómetro y lee la temperatura de la sala. Lee también el manómetro y apunta las dos en la fila «Sala».',
+    'Paso 1: con la llave abierta, el aire del matraz está unido al de la sala y tiene su misma presión. Con el elevador abajo, lleva la lupa al termómetro y lee la temperatura de la sala. Lee también el manómetro y apunta las dos en la fila «Sala».',
     'Paso 2: cierra la llave (palanca hacia abajo) para encerrar el aire del matraz.',
     'Paso 3: sube el elevador hasta arriba para que el agua con hielo cubra el matraz. Espera a que el termómetro y el manómetro se paren y apunta la fila «Hielo».',
     'Paso 4: enciende la placa. Apágala unos grados antes de {o} °C, espera a que el termómetro y el manómetro se paren y apunta la fila «≈ {o} °C».',
